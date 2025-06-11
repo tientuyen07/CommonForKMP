@@ -22,3 +22,9 @@ The app uses the following multiplatform dependencies in its implementation:
 
 - Demo custom theme -> custom button, custom textfield, custom text
 - Light/dark theme
+
+![Screenshots of the app](images/SignIn_Screen_Android_Light.png)
+![Screenshots of the app](images/SignIn_Screen_Android_Dark.png)
+
+![Screenshots of the app](images/SignIn_Screen_iOS_Light.png)
+![Screenshots of the app](images/SignIn_Screen_iOS_Dark.png)
