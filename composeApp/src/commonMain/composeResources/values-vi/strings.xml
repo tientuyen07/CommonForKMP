@@ -13,10 +13,10 @@
 
     <string name="no_data_available">No data available</string>
 
-    <string name="welcome">Welcome</string>
-    <string name="sign_in_to_continue">Please sign in to continue</string>
-    <string name="enter_username">Enter your username</string>
-    <string name="enter_password">Enter your password</string>
-    <string name="sign_in">Sign in</string>
-    <string name="sign_up_if_have_not_an_account">Don't have an account? Sign up</string>
+    <string name="welcome">Xin chào</string>
+    <string name="sign_in_to_continue">Vui lòng đăng nhập để tiếp tục</string>
+    <string name="enter_username">Nhập tài khoản</string>
+    <string name="enter_password">Nhập mật khẩu</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="sign_up_if_have_not_an_account">Bạn chưa có tài khoản? Đăng ký</string>
 </resources>

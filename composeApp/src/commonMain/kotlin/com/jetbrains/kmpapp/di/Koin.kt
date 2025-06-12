@@ -12,7 +12,9 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
@@ -41,11 +43,15 @@ val viewModelModule = module {
     factoryOf(::DetailViewModel)
 }
 
-fun initKoin() {
+expect val localizationModule: Module
+
+fun initKoin(config: (KoinApplication.() -> Unit)? = null) {
     startKoin {
+        config?.invoke(this)
         modules(
             dataModule,
             viewModelModule,
+            localizationModule
         )
     }
 }

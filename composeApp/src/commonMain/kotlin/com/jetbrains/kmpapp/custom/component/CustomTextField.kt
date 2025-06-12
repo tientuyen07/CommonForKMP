@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.screens.login_screen_with_theme.component
+package com.jetbrains.kmpapp.custom.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.jetbrains.kmpapp.screens.login_screen_with_theme.theme.LocalTheme
+import com.jetbrains.kmpapp.custom.theme.LocalTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

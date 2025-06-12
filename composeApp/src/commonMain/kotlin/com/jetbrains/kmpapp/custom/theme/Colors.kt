@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.screens.login_screen_with_theme.theme
+package com.jetbrains.kmpapp.custom.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
