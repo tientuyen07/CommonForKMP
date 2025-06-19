@@ -13,12 +13,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.jetbrains.kmpapp.custom.localization.Language
 import com.jetbrains.kmpapp.custom.localization.Localization
-import com.jetbrains.kmpapp.screens.detail.DetailScreen
 import com.jetbrains.kmpapp.screens.login_screen.LoginScreen
-import com.jetbrains.kmpapp.screens.list.ListScreen
 import dev.burnoo.compose.remembersetting.rememberStringSetting
 import kotlinx.serialization.Serializable
 import org.koin.compose.koinInject
@@ -60,17 +57,10 @@ fun App() {
                     )
                 }
                 composable<ListDestination> {
-                    ListScreen(navigateToDetails = { objectId ->
-                        navController.navigate(DetailDestination(objectId))
-                    })
+
                 }
                 composable<DetailDestination> { backStackEntry ->
-                    DetailScreen(
-                        objectId = backStackEntry.toRoute<DetailDestination>().objectId,
-                        navigateBack = {
-                            navController.popBackStack()
-                        }
-                    )
+
                 }
             }
         }
