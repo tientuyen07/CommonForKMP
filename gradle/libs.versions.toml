@@ -11,6 +11,7 @@ materialIconsCore = "1.7.3"
 navigationCompose = "2.9.0-beta01"
 lifecycleCompose = "2.9.0-beta01"
 remberSetting = "1.0.2"
+voyagerVersion = "1.1.0-beta03"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -38,6 +39,11 @@ navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-co
 
 # remember setting for remember data to shared prefer?
 remember-setting = { module = "dev.burnoo:compose-remember-setting", version.ref = "remberSetting"}
+
+# voyager for navigation
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
+voyager-navigator-tabs = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyagerVersion" }
+voyager-navigator-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyagerVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

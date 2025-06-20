@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +15,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,12 +32,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import com.jetbrains.kmpapp.custom.component.CustomButton
 import com.jetbrains.kmpapp.custom.component.CustomTextField
 import com.jetbrains.kmpapp.custom.localization.Language
+import com.jetbrains.kmpapp.custom.localization.Localization
 import com.jetbrains.kmpapp.custom.theme.LocalTheme
 import com.jetbrains.kmpapp.custom.theme.darkThemeColors
 import com.jetbrains.kmpapp.custom.theme.lightThemeColors
+import com.jetbrains.kmpapp.screens.tabs.MainTabScreen
 import commonforkmp.composeapp.generated.resources.Res
 import commonforkmp.composeapp.generated.resources.enter_password
 import commonforkmp.composeapp.generated.resources.enter_username
@@ -49,112 +52,134 @@ import commonforkmp.composeapp.generated.resources.sign_in
 import commonforkmp.composeapp.generated.resources.sign_in_to_continue
 import commonforkmp.composeapp.generated.resources.sign_up_if_have_not_an_account
 import commonforkmp.composeapp.generated.resources.welcome
+import dev.burnoo.compose.remembersetting.rememberStringSetting
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 
-@Composable
-@Preview
-fun LoginScreen(
-    language: Language,
-    onLanguageChange: () -> Unit
-) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+class LoginScreen : Screen {
+    @Composable
+    override fun Content() {
+        // for languages
+        val localization = koinInject<Localization>()
+        var languageIso by rememberStringSetting(
+            key = "savedLanguageIso",
+            defaultValue = Language.English.iso
+        )
+        val selectedLanguage by derivedStateOf {
+            Language.entries.first { it.iso == languageIso }
+        }
+        localization.applyLanguages(languageIso)
 
-    val themeColors = if (isSystemInDarkTheme()) darkThemeColors else lightThemeColors
+        // for content in login screen
+        var username by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        val navigator = LocalNavigator.current
+        // for custom theme
+        val themeColors = if (isSystemInDarkTheme()) darkThemeColors else lightThemeColors
 
-    CompositionLocalProvider(LocalTheme provides themeColors) {
-        val theme = LocalTheme.current
+        CompositionLocalProvider(LocalTheme provides themeColors) {
+            val theme = LocalTheme.current
 
-        MaterialTheme {
-            Column(
-                modifier = Modifier.fillMaxSize()
-                    .systemBarsPadding()
-                    .padding(all = 24.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    modifier = Modifier.width(96.dp).height(96.dp).padding(bottom = 12.dp),
-                    painter = painterResource(Res.drawable.ic_login_logo),
-                    contentDescription = "Image Logo"
-                )
-                Spacer(modifier = Modifier.height(48.dp))
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(Res.string.welcome),
-                    color = theme.textPrimary,
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    modifier = Modifier.fillMaxWidth().alpha(0.38f),
-                    text = stringResource(Res.string.sign_in_to_continue),
-                    color = theme.textPrimary,
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(modifier = Modifier.height(48.dp))
-                CustomTextField(
-                    value = username,
-                    onValueChange = { username = it },
-                    placeholder = stringResource(Res.string.enter_username),
-                    isError = username.length < 3
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                CustomTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    placeholder = stringResource(Res.string.enter_password),
-                    transformation = PasswordVisualTransformation(),
-                    isError = password.length < 8
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                CustomButton(
-                    text = stringResource(Res.string.sign_in),
-                    enabled = username.length >= 3 && password.length >= 8,
-                    onClick = {
+            MaterialTheme {
+                Surface {
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                            .systemBarsPadding()
+                            .padding(all = 24.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            modifier = Modifier.width(96.dp).height(96.dp).padding(bottom = 12.dp),
+                            painter = painterResource(Res.drawable.ic_login_logo),
+                            contentDescription = "Image Logo"
+                        )
+                        Spacer(modifier = Modifier.height(48.dp))
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(Res.string.welcome),
+                            color = theme.textPrimary,
+                            fontSize = 32.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            modifier = Modifier.fillMaxWidth().alpha(0.38f),
+                            text = stringResource(Res.string.sign_in_to_continue),
+                            color = theme.textPrimary,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center,
+                        )
+                        Spacer(modifier = Modifier.height(48.dp))
+                        CustomTextField(
+                            value = username,
+                            onValueChange = { username = it },
+                            placeholder = stringResource(Res.string.enter_username),
+                            isError = username.length < 3
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        CustomTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            placeholder = stringResource(Res.string.enter_password),
+                            transformation = PasswordVisualTransformation(),
+                            isError = password.length < 8
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        CustomButton(
+                            text = stringResource(Res.string.sign_in),
+                            enabled = username.length >= 3 && password.length >= 8,
+                            onClick = {
+                                // Handle login without remember option
+                                navigator?.push(MainTabScreen())
+                                // Handle login with remember option
+                                // remove login screen from backstack
+                                // navigator?.replaceAll(MainTabScreen())
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            modifier = Modifier.fillMaxWidth().alpha(0.5f),
+                            text = stringResource(Res.string.sign_up_if_have_not_an_account),
+                            fontSize = 14.sp,
+                            color = theme.textPrimary,
+                            textAlign = TextAlign.Center
+                        )
 
+                        Spacer(modifier = Modifier.height(240.dp))
+                        Button(modifier = Modifier
+                            .wrapContentSize()
+                            .align(Alignment.CenterHorizontally),
+                            onClick = {
+                                languageIso = if (selectedLanguage == Language.English) Language.Vietnamese.iso else Language.English.iso
+                                localization.applyLanguages(languageIso)
+                            },
+                            colors = ButtonColors(
+                                containerColor = theme.buttonPrimary.copy(alpha = 0.2f),
+                                contentColor = theme.textInverse,
+                                disabledContainerColor =  theme.buttonDisabled,
+                                disabledContentColor = theme.textInverse.copy(alpha = 0.38f)
+                            )
+                        ) {
+                            Text(
+                                text = selectedLanguage.name,
+                                color = theme.textPrimary,
+                                fontSize = 14.sp
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Image(
+                                modifier = Modifier.width(32.dp).height(32.dp),
+                                painter = if (selectedLanguage.iso == Language.English.iso) painterResource(Res.drawable.ic_flag_eng)
+                                else painterResource(Res.drawable.ic_flag_vietnam),
+                                contentDescription = "Flag"
+                            )
+                        }
                     }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    modifier = Modifier.fillMaxWidth().alpha(0.5f),
-                    text = stringResource(Res.string.sign_up_if_have_not_an_account),
-                    fontSize = 14.sp,
-                    color = theme.textPrimary,
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(240.dp))
-                Button(modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.CenterHorizontally),
-                    onClick = onLanguageChange,
-                    colors = ButtonColors(
-                        containerColor = theme.buttonPrimary.copy(alpha = 0.2f),
-                        contentColor = theme.textInverse,
-                        disabledContainerColor =  theme.buttonDisabled,
-                        disabledContentColor = theme.textInverse.copy(alpha = 0.38f)
-                    )
-                ) {
-                    Text(
-                        text = language.name,
-                        color = theme.textPrimary,
-                        fontSize = 14.sp
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Image(
-                        modifier = Modifier.width(32.dp).height(32.dp),
-                        painter = if (language.iso == Language.English.iso) painterResource(Res.drawable.ic_flag_eng)
-                        else painterResource(Res.drawable.ic_flag_vietnam),
-                        contentDescription = "Flag"
-                    )
                 }
             }
         }
     }
+
 }

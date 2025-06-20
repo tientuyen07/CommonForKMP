@@ -59,6 +59,10 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
 
             implementation(libs.remember.setting)
+
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.navigator.tabs)
+            implementation(libs.voyager.navigator.transitions)
         }
     }
 }
