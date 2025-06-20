@@ -25,15 +25,7 @@ The app uses the following multiplatform dependencies in its implementation:
 - Light/dark theme
 - Multiple languages
 
-- Android
-
-<img src="images/SignIn_Screen_Android_Light.png" alt="Screenshots of the app" width="300"/> <img src="images/SignIn_Screen_Android_Dark.png" alt="Screenshots of the app" width="300"/>
-<img src="images/Android_Vietnamese.png" alt="Screenshots of the app" width="300"/>
-
-- IOS
-
-<img src="images/SignIn_Screen_iOS_Light.png" alt="Screenshots of the app" width="300"/> <img src="images/SignIn_Screen_iOS_Dark.png" alt="Screenshots of the app" width="300"/>
-<img src="images/IOS_Vietnamese.png" alt="Screenshots of the app" width="300"/>
+<img src="images/SignIn_Screen_iOS_Light.png" alt="Screenshots of the app" width="300"/> <img src="images/IOS_Vietnamese.png" alt="Screenshots of the app" width="300"/>
 
 ### Main tab screen with 3 screens
 - Home screen (default)
